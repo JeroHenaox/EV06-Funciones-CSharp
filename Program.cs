@@ -24,16 +24,19 @@ static void ShowMainMenu()
                 ShowBooksMenu();
                 break;
             case 2:
-                Console.WriteLine("Módulo de usuarios pendiente de implementación.");
+                ShowUsersMenu();
                 break;
             case 3:
                 Console.WriteLine("Módulo de préstamos pendiente de implementación.");
+                Pause();
                 break;
             case 4:
                 Console.WriteLine("Módulo de búsquedas y reportes pendiente de implementación.");
+                Pause();
                 break;
             case 5:
                 Console.WriteLine("Módulo de guardar y cargar datos pendiente de implementación.");
+                Pause();
                 break;
             case 6:
                 Console.WriteLine("Saliendo del menú principal.");
@@ -249,6 +252,114 @@ static void DeleteBook()
 {
     Console.WriteLine("Acción seleccionada: eliminar libro.");
     Console.WriteLine("Validar no permitir si está prestado.");
+}
+
+static void ShowUsersMenu()
+{
+    int option = -1;
+
+    while (option != 0)
+    {
+        Console.WriteLine();
+        Console.WriteLine("========== MENÚ DE USUARIOS ==========");
+        Console.WriteLine("1. Registrar usuario");
+        Console.WriteLine("2. Listar usuarios");
+        Console.WriteLine("3. Consultar usuario");
+        Console.WriteLine("4. Actualizar nombre");
+        Console.WriteLine("5. Actualizar contacto");
+        Console.WriteLine("6. Activar usuario");
+        Console.WriteLine("7. Desactivar usuario");
+        Console.WriteLine("8. Eliminar usuario");
+        Console.WriteLine("0. Volver al menú principal");
+        Console.WriteLine("======================================");
+
+        option = ReadOption(0, 8);
+
+        switch (option)
+        {
+            case 1:
+                RegisterUser();
+                break;
+            case 2:
+                ListUsers();
+                break;
+            case 3:
+                ViewUserDetail();
+                break;
+            case 4:
+                UpdateUserName();
+                break;
+            case 5:
+                UpdateUserContact();
+                break;
+            case 6:
+                ActivateUser();
+                break;
+            case 7:
+                DeactivateUser();
+                break;
+            case 8:
+                DeleteUser();
+                break;
+            case 0:
+                Console.WriteLine("Volviendo al menú principal.");
+                break;
+        }
+
+        if (option != 0)
+        {
+            Pause();
+        }
+    }
+}
+
+static void RegisterUser()
+{
+    Console.WriteLine("Acción seleccionada: registrar usuario.");
+    Console.WriteLine("Simulación: solicitar nombre, documento y datos de contacto.");
+    Console.WriteLine("Validar que los campos obligatorios no estén vacíos.");
+}
+
+static void ListUsers()
+{
+    Console.WriteLine("Acción seleccionada: listar usuarios.");
+    Console.WriteLine("Simulación: mostrar los usuarios registrados.");
+}
+
+static void ViewUserDetail()
+{
+    Console.WriteLine("Acción seleccionada: consultar usuario.");
+    Console.WriteLine("Simulación: buscar al usuario por ID o número de documento.");
+}
+
+static void UpdateUserName()
+{
+    Console.WriteLine("Acción seleccionada: actualizar nombre del usuario.");
+    Console.WriteLine("Simulación: solicitar el ID del usuario y el nuevo nombre.");
+}
+
+static void UpdateUserContact()
+{
+    Console.WriteLine("Acción seleccionada: actualizar contacto.");
+    Console.WriteLine("Simulación: solicitar el ID del usuario y sus nuevos datos de contacto.");
+}
+
+static void ActivateUser()
+{
+    Console.WriteLine("Acción seleccionada: activar usuario.");
+    Console.WriteLine("Simulación: cambiar el estado del usuario a activo.");
+}
+
+static void DeactivateUser()
+{
+    Console.WriteLine("Acción seleccionada: desactivar usuario.");
+    Console.WriteLine("Simulación: cambiar el estado del usuario a inactivo.");
+}
+
+static void DeleteUser()
+{
+    Console.WriteLine("Acción seleccionada: eliminar usuario.");
+    Console.WriteLine("Validar no permitir si tiene préstamos activos.");
 }
 
 static void Pause()
