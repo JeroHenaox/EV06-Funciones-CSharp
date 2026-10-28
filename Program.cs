@@ -27,8 +27,7 @@ static void ShowMainMenu()
                 ShowUsersMenu();
                 break;
             case 3:
-                Console.WriteLine("Módulo de préstamos pendiente de implementación.");
-                Pause();
+                ShowLoansMenu();
                 break;
             case 4:
                 Console.WriteLine("Módulo de búsquedas y reportes pendiente de implementación.");
@@ -360,6 +359,140 @@ static void DeleteUser()
 {
     Console.WriteLine("Acción seleccionada: eliminar usuario.");
     Console.WriteLine("Validar no permitir si tiene préstamos activos.");
+}
+
+static void ShowLoansMenu()
+{
+    int option = -1;
+
+    while (option != 0)
+    {
+        Console.WriteLine();
+        Console.WriteLine("========== MENÚ DE PRÉSTAMOS ==========");
+        Console.WriteLine("1. Crear préstamo");
+        Console.WriteLine("2. Listar préstamos");
+        Console.WriteLine("3. Consultar préstamo por ID");
+        Console.WriteLine("4. Registrar devolución");
+        Console.WriteLine("5. Eliminar préstamo");
+        Console.WriteLine("0. Volver al menú principal");
+        Console.WriteLine("=======================================");
+
+        option = ReadOption(0, 5);
+
+        switch (option)
+        {
+            case 1:
+                CreateLoan();
+                break;
+            case 2:
+                ListLoansMenu();
+                break;
+            case 3:
+                ViewLoanDetail();
+                break;
+            case 4:
+                RegisterLoanReturn();
+                break;
+            case 5:
+                DeleteLoan();
+                break;
+            case 0:
+                Console.WriteLine("Volviendo al menú principal.");
+                break;
+        }
+
+        if (option != 0)
+        {
+            Pause();
+        }
+    }
+}
+
+static void CreateLoan()
+{
+    Console.WriteLine("Acción seleccionada: crear préstamo.");
+    Console.WriteLine("Simulación: solicitar el ID del usuario y el ID del libro.");
+    Console.WriteLine("Validar que el usuario esté activo y que el libro esté disponible.");
+    Console.WriteLine("Validar que el usuario no tenga restricciones para solicitar préstamos.");
+    Console.WriteLine("Simulación: registrar fecha de préstamo y fecha prevista de devolución.");
+}
+
+static void ListLoansMenu()
+{
+    int option = -1;
+
+    while (option != 0)
+    {
+        Console.WriteLine();
+        Console.WriteLine("========== LISTAR PRÉSTAMOS ==========");
+        Console.WriteLine("1. Listar todos");
+        Console.WriteLine("2. Listar préstamos activos");
+        Console.WriteLine("3. Listar préstamos cerrados");
+        Console.WriteLine("0. Volver al menú de préstamos");
+        Console.WriteLine("======================================");
+
+        option = ReadOption(0, 3);
+
+        switch (option)
+        {
+            case 1:
+                ListAllLoans();
+                break;
+            case 2:
+                ListActiveLoans();
+                break;
+            case 3:
+                ListClosedLoans();
+                break;
+            case 0:
+                Console.WriteLine("Volviendo al menú de préstamos.");
+                break;
+        }
+
+        if (option != 0)
+        {
+            Pause();
+        }
+    }
+}
+
+static void ListAllLoans()
+{
+    Console.WriteLine("Acción seleccionada: listar todos los préstamos.");
+    Console.WriteLine("Simulación: mostrar todos los préstamos registrados.");
+}
+
+static void ListActiveLoans()
+{
+    Console.WriteLine("Acción seleccionada: listar préstamos activos.");
+    Console.WriteLine("Simulación: mostrar los préstamos que aún no han sido devueltos.");
+}
+
+static void ListClosedLoans()
+{
+    Console.WriteLine("Acción seleccionada: listar préstamos cerrados.");
+    Console.WriteLine("Simulación: mostrar los préstamos que ya fueron devueltos.");
+}
+
+static void ViewLoanDetail()
+{
+    Console.WriteLine("Acción seleccionada: consultar préstamo por ID.");
+    Console.WriteLine("Simulación: solicitar el ID y mostrar los datos del préstamo.");
+}
+
+static void RegisterLoanReturn()
+{
+    Console.WriteLine("Acción seleccionada: registrar devolución.");
+    Console.WriteLine("Simulación: buscar el préstamo y verificar que siga activo.");
+    Console.WriteLine("Simulación: marcar el préstamo como devuelto.");
+    Console.WriteLine("Simulación: cambiar el estado del libro a disponible.");
+}
+
+static void DeleteLoan()
+{
+    Console.WriteLine("Acción seleccionada: eliminar préstamo.");
+    Console.WriteLine("Validar que la eliminación no genere inconsistencias en el historial.");
+    Console.WriteLine("Verificar el estado del préstamo y la disponibilidad del libro antes de eliminar.");
 }
 
 static void Pause()
