@@ -36,8 +36,7 @@ static void ShowMainMenu()
                 ShowSearchReportsMenu();
                 break;
             case 5:
-                Console.WriteLine("El módulo de guardar y cargar datos está pendiente.");
-                Pause();
+                ShowPersistenceMenu();
                 break;
             case 6:
                 Console.WriteLine("Saliendo del sistema...");
@@ -399,16 +398,13 @@ static void ListLoansMenu()
         switch (opcion)
         {
             case 1:
-                Console.WriteLine("Aquí se mostrarían todos los préstamos.");
-                Pause();
+                ListAllLoans();
                 break;
             case 2:
-                Console.WriteLine("Aquí se mostrarían los préstamos activos.");
-                Pause();
+                ListActiveLoans();
                 break;
             case 3:
-                Console.WriteLine("Aquí se mostrarían los préstamos cerrados.");
-                Pause();
+                ListClosedLoans();
                 break;
             case 0:
                 Console.WriteLine("Volviendo al menú de préstamos...");
@@ -630,6 +626,74 @@ static void ShowGeneralReport()
     Console.WriteLine("Resumen de usuarios: pendiente de datos almacenados.");
     Console.WriteLine("Resumen de préstamos activos y cerrados: pendiente de datos almacenados.");
     Console.WriteLine("Reporte simulado.");
+    Pause();
+}
+
+static void ShowPersistenceMenu()
+{
+    int opcion = -1;
+
+    while (opcion != 0)
+    {
+        Console.WriteLine("\n===== GUARDAR / CARGAR DATOS =====");
+        Console.WriteLine("1. Guardar datos");
+        Console.WriteLine("2. Cargar datos");
+        Console.WriteLine("3. Restablecer datos");
+        Console.WriteLine("0. Volver al menú principal");
+        Console.Write("Seleccione una opción: ");
+
+        opcion = ReadOption(0, 3);
+
+        switch (opcion)
+        {
+            case 1:
+                SaveData();
+                break;
+            case 2:
+                LoadData();
+                break;
+            case 3:
+                ResetData();
+                break;
+            case 0:
+                Console.WriteLine("Volviendo al menú principal...");
+                break;
+        }
+    }
+}
+
+static void SaveData()
+{
+    Console.WriteLine("\n===== GUARDAR DATOS =====");
+    Console.WriteLine("La operación de guardar datos está simulada.");
+    Console.WriteLine("No se crea ningún archivo ni se guardan registros.");
+    Pause();
+}
+
+static void LoadData()
+{
+    Console.WriteLine("\n===== CARGAR DATOS =====");
+    Console.WriteLine("La operación de cargar datos está simulada.");
+    Console.WriteLine("No se leen archivos ni se cargan registros.");
+    Pause();
+}
+
+static void ResetData()
+{
+    Console.WriteLine("\n===== RESTABLECER DATOS =====");
+    Console.Write("¿Confirma que desea restablecer los datos? (S/N): ");
+    string confirmacion = Console.ReadLine() ?? "";
+
+    if (confirmacion.Equals("S", StringComparison.OrdinalIgnoreCase))
+    {
+        Console.WriteLine("Se simularía el restablecimiento de los datos.");
+        Console.WriteLine("No hay registros almacenados que puedan eliminarse.");
+    }
+    else
+    {
+        Console.WriteLine("Restablecimiento cancelado.");
+    }
+
     Pause();
 }
 
