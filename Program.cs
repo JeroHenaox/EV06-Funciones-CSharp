@@ -1,4 +1,5 @@
-﻿Console.WriteLine("==================================");
+﻿
+Console.WriteLine("==================================");
 Console.WriteLine(" SISTEMA DE GESTIÓN DE BIBLIOTECA");
 Console.WriteLine("==================================");
 
@@ -39,10 +40,38 @@ static void ShowMainMenu()
                 ShowPersistenceMenu();
                 break;
             case 6:
-                Console.WriteLine("Saliendo del sistema...");
+                ExitSystem();
                 break;
         }
     }
+}
+
+static void ExitSystem()
+{
+    string respuesta = "";
+
+    while (respuesta != "S" && respuesta != "N")
+    {
+        Console.Write("\n¿Desea guardar antes de salir? (S/N): ");
+        respuesta = (Console.ReadLine() ?? "").Trim().ToUpper();
+
+        if (respuesta != "S" && respuesta != "N")
+        {
+            Console.WriteLine("Respuesta inválida. Escriba S para sí o N para no.");
+        }
+    }
+
+    if (respuesta == "S")
+    {
+        SaveData();
+        Console.WriteLine("Datos guardados (simulación).");
+    }
+    else
+    {
+        Console.WriteLine("Saliendo sin guardar los datos.");
+    }
+
+    Console.WriteLine("Gracias por utilizar el sistema de biblioteca.");
 }
 
 static void ShowBooksMenu()
