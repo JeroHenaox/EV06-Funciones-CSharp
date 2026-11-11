@@ -3,6 +3,8 @@ Console.WriteLine("==================================");
 Console.WriteLine(" SISTEMA DE GESTIÓN DE BIBLIOTECA");
 Console.WriteLine("==================================");
 
+ProbarObjetosEV07();
+
 ShowMainMenu();
 
 static void ShowMainMenu()
@@ -762,4 +764,71 @@ static void Pause()
 {
     Console.WriteLine("\nPresione Enter para continuar...");
     Console.ReadLine();
+}
+
+// ===== PRUEBAS DE OBJETOS EV07 =====
+
+static void ProbarObjetosEV07()
+{
+    Console.WriteLine("\n===== PRUEBAS DE OBJETOS EV07 =====");
+
+    // Crear dos libros
+    var libro1 = new EV06_Funciones_CSharp.Models.Libro(
+        1, "Cien años de soledad", "Gabriel García Márquez", "ISBN001");
+
+    var libro2 = new EV06_Funciones_CSharp.Models.Libro(
+        2, "El principito", "Antoine de Saint-Exupéry", "ISBN002");
+
+    // Crear dos usuarios
+    var usuario1 = new EV06_Funciones_CSharp.Models.Usuario(
+        1, "Juan Pérez", "1001234567", "juan@gmail.com");
+
+    var usuario2 = new EV06_Funciones_CSharp.Models.Usuario(
+        2, "Ana Gómez", "1007654321", "ana@gmail.com");
+
+    // Crear un préstamo
+    var prestamo1 = new EV06_Funciones_CSharp.Models.Prestamo(
+        1,
+        usuario1.Id,
+        libro1.Id,
+        DateTime.Today.AddDays(-5),
+        DateTime.Today.AddDays(2)
+    );
+
+    Console.WriteLine("\n--- LIBROS ---");
+
+    Console.WriteLine(libro1.ResumenCorto());
+    Console.WriteLine(libro1.DetalleCompleto());
+
+    Console.WriteLine();
+
+    Console.WriteLine(libro2.ResumenCorto());
+    Console.WriteLine(libro2.DetalleCompleto());
+
+    Console.WriteLine("\n--- USUARIOS ---");
+
+    Console.WriteLine(usuario1.ResumenCorto());
+    Console.WriteLine(usuario1.DetalleCompleto());
+
+    Console.WriteLine();
+
+    Console.WriteLine(usuario2.ResumenCorto());
+    Console.WriteLine(usuario2.DetalleCompleto());
+
+    Console.WriteLine("\n--- PRÉSTAMO ---");
+
+    Console.WriteLine(prestamo1.ResumenCorto());
+    Console.WriteLine(prestamo1.DetalleCompleto());
+
+    Console.WriteLine("\n--- VALIDACIONES ---");
+
+    Console.WriteLine($"Libro 1 disponible: {libro1.Disponible}");
+    Console.WriteLine($"Libro 2 disponible: {libro2.Disponible}");
+
+    Console.WriteLine($"Usuario 1 activo: {usuario1.Activo}");
+    Console.WriteLine($"Usuario 2 activo: {usuario2.Activo}");
+
+    Console.WriteLine($"Estado del préstamo: {prestamo1.Estado}");
+    Console.WriteLine($"¿Está vencido?: {prestamo1.EstaVencido()}");
+    Console.WriteLine($"Días transcurridos: {prestamo1.DiasTranscurridos()}");
 }
