@@ -1,9 +1,9 @@
-﻿
-Console.WriteLine("==================================");
+﻿Console.WriteLine("==================================");
 Console.WriteLine(" SISTEMA DE GESTIÓN DE BIBLIOTECA");
 Console.WriteLine("==================================");
 
 ProbarObjetosEV07();
+ProbarServiciosEV08();
 
 ShowMainMenu();
 
@@ -831,4 +831,73 @@ static void ProbarObjetosEV07()
     Console.WriteLine($"Estado del préstamo: {prestamo1.Estado}");
     Console.WriteLine($"¿Está vencido?: {prestamo1.EstaVencido()}");
     Console.WriteLine($"Días transcurridos: {prestamo1.DiasTranscurridos()}");
+}
+
+// ===== PRUEBAS DE COLECCIONES Y SERVICIOS EV08 =====
+static void ProbarServiciosEV08()
+{
+    var libros = new EV06_Funciones_CSharp.Services.LibroService();
+    var usuarios = new EV06_Funciones_CSharp.Services.UsuarioService();
+    var prestamos = new EV06_Funciones_CSharp.Services.PrestamoService();
+
+    Console.WriteLine("\n===== PRUEBAS DE SERVICIOS EV08 =====");
+
+    var libro1 = new EV06_Funciones_CSharp.Models.Libro(1, "Cien años de soledad", "Gabriel García Márquez", "ISBN001");
+    var libro2 = new EV06_Funciones_CSharp.Models.Libro(2, "El principito", "Antoine de Saint-Exupéry", "ISBN002");
+    var libro3 = new EV06_Funciones_CSharp.Models.Libro(3, "Don Quijote", "Miguel de Cervantes", "ISBN003");
+    libro1.Disponible = false;
+    libros.AgregarLibro(libro1);
+    libros.AgregarLibro(libro2);
+    libros.AgregarLibro(libro3);
+
+    Console.WriteLine("\n--- LIBROS: BÚSQUEDAS Y ORDENACIÓN ---");
+    Console.WriteLine($"ISBN002: {libros.BuscarPorISBN("ISBN002")?.Titulo ?? "No encontrado"}");
+    Console.WriteLine("Título 'Quijote': " + string.Join(", ", libros.BuscarPorTitulo("Quijote").Select(l => l.Titulo)));
+    Console.WriteLine("Autor 'Gabriel': " + string.Join(", ", libros.BuscarPorAutor("Gabriel").Select(l => l.Titulo)));
+    foreach (var libro in libros.OrdenarPorTitulo()) Console.WriteLine(libro.ResumenCorto());
+    Console.WriteLine($"KPIs libros: total={libros.TotalLibros()}, disponibles={libros.TotalDisponibles()}, prestados={libros.TotalPrestados()}");
+    Console.WriteLine($"Eliminar libro 3: {libros.EliminarLibro(3)}. Restantes: {libros.ObtenerTodos().Count}");
+
+    var usuario1 = new EV06_Funciones_CSharp.Models.Usuario(1, "Juan Pérez", "1001234567", "juan@gmail.com");
+    var usuario2 = new EV06_Funciones_CSharp.Models.Usuario(2, "Ana Gómez", "1007654321", "ana@gmail.com");
+    usuario2.Activo = false;
+    usuarios.AgregarUsuario(usuario1);
+    usuarios.AgregarUsuario(usuario2);
+
+    Console.WriteLine("\n--- USUARIOS: BÚSQUEDAS Y ORDENACIÓN ---");
+    Console.WriteLine($"Documento 1001234567: {usuarios.BuscarPorDocumento("1001234567")?.Nombre ?? "No encontrado"}");
+    Console.WriteLine("Nombre 'Ana': " + string.Join(", ", usuarios.BuscarPorNombre("Ana").Select(u => u.Nombre)));
+    foreach (var usuario in usuarios.OrdenarPorNombre()) Console.WriteLine(usuario.ResumenCorto());
+    Console.WriteLine($"KPIs usuarios: total={usuarios.TotalUsuarios()}, activos={usuarios.TotalActivos()}, inactivos={usuarios.TotalInactivos()}");
+    Console.WriteLine($"Eliminar usuario 2: {usuarios.EliminarUsuario(2)}. Restantes: {usuarios.ObtenerTodos().Count}");
+
+    var hoy = DateTime.Today;
+    var prestamo1 = new EV06_Funciones_CSharp.Models.Prestamo(1, 1, 1, hoy.AddDays(-5), hoy.AddDays(5));
+    var prestamo2 = new EV06_Funciones_CSharp.Models.Prestamo(2, 1, 2, hoy.AddDays(-10), hoy.AddDays(-2));
+    var prestamo3 = new EV06_Funciones_CSharp.Models.Prestamo(3, 2, 3, hoy.AddDays(-8), hoy.AddDays(2));
+    prestamo3.FechaDevolucion = hoy.AddDays(-1);
+    prestamo3.Estado = EV06_Funciones_CSharp.Models.EstadoPrestamo.Devuelto;
+    prestamos.AgregarPrestamo(prestamo1);
+    prestamos.AgregarPrestamo(prestamo2);
+    prestamos.AgregarPrestamo(prestamo3);
+
+    Console.WriteLine("\n--- PRÉSTAMOS: BÚSQUEDAS Y ORDENACIÓN ---");
+    Console.WriteLine($"Préstamo ID 2: {prestamos.BuscarPorId(2)?.ResumenCorto() ?? "No encontrado"}");
+    Console.WriteLine("Préstamos vencidos: " + string.Join(", ", prestamos.BuscarPorEstado(EV06_Funciones_CSharp.Models.EstadoPrestamo.Vencido).Select(p => p.Id)));
+    foreach (var prestamo in prestamos.OrdenarPorFechaLimite())
+        Console.WriteLine($"Préstamo {prestamo.Id}: límite {prestamo.FechaDevolucionEsperada:dd/MM/yyyy}");
+    Console.WriteLine($"KPIs préstamos: total={prestamos.TotalPrestamos()}, activos={prestamos.TotalActivos()}, vencidos={prestamos.TotalVencidos()}, devueltos={prestamos.TotalDevueltos()}");
+    Console.WriteLine($"Promedio de días de préstamo: {prestamos.PromedioDiasPrestamo():F2}");
+    Console.WriteLine($"Eliminar préstamo 3: {prestamos.EliminarPrestamo(3)}. Restantes: {prestamos.ObtenerTodos().Count}");
+
+    Console.WriteLine("\n--- COMPARACIÓN ARRAY VS LIST<T> ---");
+    string[] arreglo = { "Libro A", "Libro B" };
+    List<string> lista = new List<string> { "Libro A", "Libro B" };
+    lista.Add("Libro C");
+    Console.WriteLine($"Array: {arreglo.Length} elementos (tamaño fijo)");
+    Console.WriteLine($"List: {lista.Count} elementos (se agregó Libro C sin crear otra colección)");
+    lista.Remove("Libro A");
+    Console.WriteLine($"List después de Remove: {string.Join(", ", lista)}");
+    Console.WriteLine("Un array tiene longitud fija; List<T> permite agregar y quitar elementos dinámicamente.");
+    Console.WriteLine("===== FIN DE PRUEBAS EV08 =====");
 }
